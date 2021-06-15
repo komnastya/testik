@@ -25,6 +25,8 @@ def assert_false(object):
 def assert_none(object):
     assert object is None, "Object is not None"
 
+def assert_not_none(object):
+    assert object is not None, 'Object is None'
 
 def assert_not_none(object):
     assert object is not None, "Object is None"
@@ -32,3 +34,6 @@ def assert_not_none(object):
 
 def assert_in(it, elem):
     assert elem in it, "Element is not in the iterator"
+
+def asser_not_in(it, elem):
+    assert elem in it, 'Element is iterator'
