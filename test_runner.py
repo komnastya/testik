@@ -2,9 +2,10 @@ def run_tests(module_list):
     for test_function in find_test_functions(module_list):
         try:
             test_function()
-            test_result(test_function)
+            result = None
         except AssertionError as ex:
-            test_result(test_function, ex)
+            result = ex
+        test_result(test_function, result)
 
 
 def find_test_functions(module_list):
@@ -18,7 +19,7 @@ def find_test_functions(module_list):
     return test_functions
 
 
-def test_result(test_function, ex=None):
+def test_result(test_function, ex):
     function_name = test_function.__name__
     if ex is None:
         print(f'\nTest function "{function_name}" run successfully!')
