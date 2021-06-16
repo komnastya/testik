@@ -2,15 +2,15 @@ def run_tests(module_list):
     for module in module_list:
         before_each, after_each, test_functions = find_test_functions(module)
         for test_function in test_functions:
-            if before_each is not None:
-                before_each()
             try:
+                if before_each is not None:
+                    before_each()
                 test_function()
+                if after_each is not None:
+                    after_each
                 result = None
             except AssertionError as ex:
                 result = ex
-            if after_each is not None:
-                after_each()
             test_result(test_function, result)
 
 
