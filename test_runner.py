@@ -1,6 +1,6 @@
 # find all test functions
 
-def run_test(module_list):
+def run_tests(module_list):
     """Finds all functions which begin with `test_` and executes them."""
     functions_to_test = []
     for module in module_list:
