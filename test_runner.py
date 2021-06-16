@@ -19,14 +19,14 @@ def find_test_functions(module):
     after_each = None
     test_functions = []
     for function_name in dir(module):
-        if function_name == "before_each":
-            before_each = getattr(module, function_name)
-        if function_name == "after_each":
-            after_each = getattr(module, function_name)
-        if function_name.startswith("test_"):
-            value = getattr(module, function_name)
-            if callable(value):
-                test_functions.append(value)
+        function = getattr(module, function_name)
+        if callable(function):
+            if function_name.startswith("test_"):
+                test_functions.append(function)
+            elif function_name == "before_each":
+                before_each = function
+            elif function_name == "after_each":
+                after_each = function
     return (before_each, after_each, test_functions)
 
 
