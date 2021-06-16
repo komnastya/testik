@@ -1,22 +1,33 @@
 def run_tests(module_list):
-    for test_function in find_test_functions(module_list):
-        try:
-            test_function()
-            result = None
-        except AssertionError as ex:
-            result = ex
-        test_result(test_function, result)
-
-
-def find_test_functions(module_list):
-    test_functions = []
     for module in module_list:
-        for function_name in dir(module):
-            if function_name.startswith("test_"):
-                value = getattr(module, function_name)
-                if callable(value):
-                    test_functions.append(value)
-    return test_functions
+        before_each, after_each, test_functions = find_test_functions(module)
+        for test_function in test_functions:
+            if before_each is not None:
+                before_each()
+            try:
+                test_function()
+                result = None
+            except AssertionError as ex:
+                result = ex
+            if after_each is not None:
+                after_each()
+            test_result(test_function, result)
+
+
+def find_test_functions(module):
+    before_each = None
+    after_each = None
+    test_functions = []
+    for function_name in dir(module):
+        if function_name == "before_each":
+            before_each = getattr(module, function_name)
+        if function_name == "after_each":
+            after_each = getattr(module, function_name)
+        if function_name.startswith("test_"):
+            value = getattr(module, function_name)
+            if callable(value):
+                test_functions.append(value)
+    return (before_each, after_each, test_functions)
 
 
 def test_result(test_function, ex):
