@@ -7,7 +7,7 @@ def run_tests(module_list):
                     before_each()
                 test_function()
                 if after_each is not None:
-                    after_each
+                    after_each()
                 result = None
             except AssertionError as ex:
                 result = ex
